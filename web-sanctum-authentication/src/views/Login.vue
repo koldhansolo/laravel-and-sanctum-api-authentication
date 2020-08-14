@@ -1,0 +1,72 @@
+<template>
+	<v-container>
+		<v-row class="justify-center">
+			<v-col cols="12" sm="7" md="6" lg="5" xl="4">
+				<v-card class="pa-10">
+					<v-card-title class="pa-0 mb-10 text-h4">Login</v-card-title>
+					<form @submit.prevent="login()">
+						<v-text-field
+							label="Email"
+							outlined
+							clearable
+							v-model="$v.email.$model"
+						></v-text-field>
+						<v-text-field
+							label="Password"
+							outlined
+							clearable
+							hint="Al menos 8 caracteres."
+							type="password"
+							v-model="$v.password.$model"
+						></v-text-field>
+						<v-btn
+							block
+							color="blue darken-2 white--text"
+							large
+							:disabled="$v.$invalid"
+							type="submit"
+							class="mb-7"
+						>Iniciar sesión</v-btn>
+					</form>
+					<v-divider class="mb-8"></v-divider>
+					<div class="text-center text-h6">
+						<span class="mr-1">¿Eres nuevo?</span>
+						<router-link to="/" class="text-decoration-none ml-1 blue-darken-2--text">Registrate</router-link>
+					</div>
+				</v-card>
+			</v-col>
+		</v-row>
+	</v-container>
+</template>
+
+<script>
+
+import { validationMixin } from 'vuelidate'
+import { required, minLength, email } from 'vuelidate/lib/validators'
+
+export default {
+	name: 'Login',
+	data() {
+		return {
+			email: '',
+			password: ''
+		}
+	},
+	methods: {
+		login() {
+			console.log('hello');
+		}
+	},
+	mixins: [validationMixin],
+	validations: {
+		email: {
+			required,
+			email
+		},
+		password: {
+			required,
+			minLength: minLength(8)
+		}
+	},
+}
+</script>
