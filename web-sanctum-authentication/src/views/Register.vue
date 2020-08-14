@@ -3,8 +3,14 @@
 		<v-row class="justify-center">
 			<v-col cols="12" sm="7" md="6" lg="5" xl="4">
 				<v-card class="pa-10">
-					<v-card-title class="pa-0 mb-10 text-h4">Iniciar sesión</v-card-title>
-					<form @submit.prevent="login()">
+					<v-card-title class="pa-0 mb-10 text-h4">Registro</v-card-title>
+					<form @submit.prevent="register()">
+						<v-text-field
+							label="Nombre"
+							outlined
+							clearable
+							v-model="$v.name.$model"
+						></v-text-field>
 						<v-text-field
 							label="Correo electrónico"
 							outlined
@@ -19,6 +25,13 @@
 							type="password"
 							v-model="$v.password.$model"
 						></v-text-field>
+						<v-text-field
+							label="Repetir contraseña"
+							outlined
+							clearable
+							type="password"
+							v-model="$v.repeatPassword.$model"
+						></v-text-field>
 						<v-btn
 							block
 							color="blue darken-2 white--text"
@@ -26,12 +39,12 @@
 							:disabled="$v.$invalid"
 							type="submit"
 							class="mb-7"
-						>Iniciar sesión</v-btn>
+						>Registrarse</v-btn>
 					</form>
 					<v-divider class="mb-8"></v-divider>
 					<div class="text-center text-h6">
-						<span class="mr-1">¿Eres nuevo?</span>
-						<router-link :to="{name: 'Register'}" class="text-decoration-none ml-1 blue-darken-2--text">Registrate</router-link>
+						<span class="mr-1">Ya estás registrado?</span>
+						<router-link :to="{name: 'Login'}" class="text-decoration-none ml-1 blue-darken-2--text">Inicia sesión</router-link>
 					</div>
 				</v-card>
 			</v-col>
@@ -42,23 +55,29 @@
 <script>
 
 import { validationMixin } from 'vuelidate'
-import { required, minLength, email } from 'vuelidate/lib/validators'
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
 export default {
 	name: 'Login',
 	data() {
 		return {
+			name: '',
 			email: '',
-			password: ''
+			password: '',
+			repeatPassword: ''
 		}
 	},
 	methods: {
-		login() {
-			console.log('Login');
+		register() {
+			console.log('Register');
 		}
 	},
 	mixins: [validationMixin],
 	validations: {
+		name: {
+			required,
+			minLength: minLength(4)
+		},
 		email: {
 			required,
 			email
@@ -66,6 +85,9 @@ export default {
 		password: {
 			required,
 			minLength: minLength(8)
+		},
+		repeatPassword: {
+			sameAsPassword: sameAs('password')
 		}
 	},
 }
