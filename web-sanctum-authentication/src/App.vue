@@ -13,12 +13,22 @@
         text
         outlined
         :to="{name: 'Login'}"
+        v-if="!auth"
       >
         Iniciar sesión
       </v-btn>
+      <v-btn
+        text
+        outlined
+        v-if="auth"
+        @click="logout"
+        :loading="loading"
+      >
+        Cerrar sesión
+      </v-btn>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="blue-grey lighten-5">
       <router-view></router-view>
     </v-main>
   </v-app>
@@ -26,12 +36,19 @@
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'App',
 
   components: {
     HelloWorld,
+  },
+  computed: {
+    ...mapState(['auth', 'loading']),
+  },
+  methods: {
+    ...mapActions(['logout'])
   },
 
   data: () => ({
