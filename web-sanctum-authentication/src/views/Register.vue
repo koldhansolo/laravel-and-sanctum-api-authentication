@@ -63,10 +63,10 @@ export default {
 	data() {
 		return {
 			form: {
-				name: 'Daniel Cruz',
-				email: 'danielcruz@iitech.mx',
-				password: 'password',
-				password_confirmation: 'password'
+				name: '',
+				email: '',
+				password: '',
+				password_confirmation: ''
 			}
 		}
 	},
